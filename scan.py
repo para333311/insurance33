@@ -54,6 +54,11 @@ AGE_RANGE = re.compile(
 )
 
 
+# '20세~ min(세만기-납입기간, 85세)' 꼴. 상한이 괄호 안 계산식에 숨어 있어 위 정규식이 못 잡는다.
+# 농협손보 상품이 전부 이 서식이라 이걸 놓치면 제일 싼 후보가 통째로 '가입나이 미확인' 이 된다.
+AGE_MIN_FN = re.compile(r"(\d{1,3})\s*세\s*[~∼～]\s*[Mm]in\s*\(.{0,60}?,\s*(\d{1,3})\s*세", re.S)
+
+
 def _pairs(text):
     """갱신 나이 구간('갱신 … 22~100세')은 새로 드는 나이가 아니라 뺀다."""
     for m in AGE_RANGE.finditer(text):
@@ -61,6 +66,8 @@ def _pairs(text):
             continue
         a, b = (m.group(1), m.group(2)) if m.group(1) else (m.group(3), m.group(4))
         yield int(a), int(b), m
+    for m in AGE_MIN_FN.finditer(text):
+        yield int(m.group(1)), int(m.group(2)), m
 
 
 def age_ranges(text):
@@ -211,6 +218,32 @@ def src_kpub():
 # ── 소스 3: 생보협회 간병/치매보험 ────────────────────────────────────────────
 LIA_LIST = "https://pub.insure.or.kr/compareDis/prodCompare/assurance/listNew.do?search_prodGroup=024400010010"
 LIA_REMARK = "https://pub.insure.or.kr/compareDis/prodCompare/assurance/remarkViewPopup.do?prodCd={pc}&search_prodGroup=024400010010"
+PREM_CELL = re.compile(r"<td([^>]*)><!--\s*보험료:(남자|여자)\s*-->\s*([\d,]+)")
+
+
+def product_segment(page, pc):
+    i = page.find(f"l_prodNm_{pc}")
+    if i < 0:
+        return ""
+    j = page.find("l_prodNm_", i + 10)
+    return page[i: j if j > 0 else i + 20000]
+
+
+def sum_premium(seg, who):
+    """주계약(mainTerm) + 공시된 특약을 더한 값과 주계약만의 값.
+
+    생보는 주계약이 3,300원인데 정작 간병 보장은 특약에 있는 상품이 흔하다(ABL 등).
+    주계약만 보면 손보 예시보험료(기본계약+주요특약)와 견줄 수 없어 합계로 비교한다.
+    """
+    main, total = None, 0
+    for attrs, w, val in PREM_CELL.findall(seg):
+        if w != who:
+            continue
+        n = int(val.replace(",", ""))
+        total += n
+        if "mainTerm" in attrs and main is None:
+            main = n
+    return (str(total) if total else None), (str(main) if main is not None else None)
 
 
 def src_lia():
@@ -224,12 +257,9 @@ def src_lia():
         co = re.search(r'id="l_memberNm_' + re.escape(pc) + r'"[^>]*>([^<]*)', page)
         name = strip_tags(nm.group(1)) if nm else pc
         company = strip_tags(co.group(1)) if co else pc[:3]
-        seg_start = page.find(f'l_prodNm_{pc}')
-        seg = page[seg_start: seg_start + 20000] if seg_start >= 0 else ""
-        pm = re.search(r"보험료:남자\s*-->\s*([\d,]+)", seg)
-        pw = re.search(r"보험료:여자\s*-->\s*([\d,]+)", seg)
-        prem_m = pm.group(1).replace(",", "") if pm else None
-        prem_w = pw.group(1).replace(",", "") if pw else None
+        seg = product_segment(page, pc)
+        prem_m, main_m = sum_premium(seg, "남자")
+        prem_w, main_w = sum_premium(seg, "여자")
         remark = strip_tags(fetch(LIA_REMARK.format(pc=pc)).decode("utf-8", "replace"))
         m = re.search(r"가입\s*나이\s*:?\s*(.{0,140})", remark)
         text = m.group(1) if m else ""
@@ -247,7 +277,9 @@ def src_lia():
             "evidence": ("가입나이 " + text[:80]).strip() if text else "",
             "premium_m": prem_m,
             "premium_w": prem_w,
-            "premium_note": "주계약 40세 예시",
+            "premium_main_m": main_m,
+            "premium_main_w": main_w,
+            "premium_note": "주계약+특약 40세 예시",
             "channel": "",
             "phone": "",
             "link": LIA_LIST,
