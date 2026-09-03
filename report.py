@@ -83,6 +83,20 @@ def load(name):
     return d
 
 
+def signup_url(prod):
+    """상품명에 걸 링크. 요약서 PDF 가 아니라 보험사 사이트로 보낸다.
+
+    간병보험은 대면·TM 채널이라 온라인 가입 페이지 자체가 없는 경우가 대부분이다.
+    그래서 회사별로 상담신청 페이지를 아는 것은 sites.json 에 적고, 없으면 공시에 실린
+    보험사 상품공시 페이지로 보낸다.
+    """
+    sites = {}
+    f = ROOT / "sites.json"
+    if f.exists():
+        sites = {k: v for k, v in json.loads(f.read_text(encoding="utf-8")).items() if not k.startswith("_")}
+    return sites.get(prod["company"]) or prod.get("link") or prod.get("summary_url") or ""
+
+
 def premium(prod, sex):
     try:
         return int(str(prod.get("premium_w" if sex == "여" else "premium_m")).replace(",", ""))
@@ -126,12 +140,16 @@ def full_report(cur, fam):
     for i, x in enumerate(keep, 1):
         L.append("")
         L.append(f"<b>{i}. {esc(x['company'])}</b>")
-        L.append(f"<a href=\"{esc(x.get('summary_url') or x.get('link') or '')}\">{esc(x['name'][:52])}</a>")
+        L.append(f"<a href=\"{esc(signup_url(x))}\">{esc(x['name'][:52])}</a>")
         L.append("💰 " + " · ".join(
             f"{esc(p['name'])} <b>{won(est_premium(x, p))}</b>" if qualifies(x, p)
             else f"<s>{esc(p['name'])}</s>" for p in fam))
-        L.append(f"📅 {x.get('age_min')}~{x['age_max']}세 가입"
-                 + (f"   ☎ {esc(x['phone'])}" if x.get("phone") else ""))
+        tail = f"📅 {x.get('age_min')}~{x['age_max']}세 가입"
+        if x.get("phone"):
+            tail += f"   ☎ {esc(x['phone'])}"
+        if x.get("summary_url"):
+            tail += f"   <a href=\"{esc(x['summary_url'])}\">📄요약서</a>"
+        L.append(tail)
 
     age_ok = [x for x in prods if any(x.get("age_max") and x["age_max"] >= p["age"] for p in fam)]
     kept = {id(x) for x in keep}
