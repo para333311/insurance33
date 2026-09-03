@@ -83,6 +83,15 @@ def load(name):
     return d
 
 
+def is_online(prod):
+    """전화·대면 없이 웹으로 가입까지 되는지. 채널 문구에 CM/온라인/인터넷/통신판매가 있으면 참.
+
+    파라님 지시(2026-09-03): 전화번호는 화면에서 뺀다 — 안 뜨면 전화로만 되는 것으로 이해하신다.
+    그래서 온라인 표시가 없는 상품은 전부 "전화(또는 대면)로만 가입" 이라는 뜻이 된다.
+    """
+    return any(w in (prod.get("channel") or "") for w in ("CM", "온라인", "인터넷", "통신판매"))
+
+
 def signup_url(prod):
     """상품명에 걸 링크. 요약서 PDF 가 아니라 보험사 사이트로 보낸다.
 
@@ -140,13 +149,13 @@ def full_report(cur, fam):
     for i, x in enumerate(keep, 1):
         L.append("")
         L.append(f"<b>{i}. {esc(x['company'])}</b>")
-        L.append(f"<a href=\"{esc(signup_url(x))}\">{esc(x['name'][:52])}</a>")
+        online = is_online(x)
+        title = esc(x['name'][:52]) + (" 🌐온라인가입" if online else "")
+        L.append(f"<a href=\"{esc(signup_url(x))}\">{title}</a>")
         L.append("💰 " + " · ".join(
             f"{esc(p['name'])} <b>{won(est_premium(x, p))}</b>" if qualifies(x, p)
             else f"<s>{esc(p['name'])}</s>" for p in fam))
         tail = f"📅 {x.get('age_min')}~{x['age_max']}세 가입"
-        if x.get("phone"):
-            tail += f"   ☎ {esc(x['phone'])}"
         if x.get("summary_url"):
             tail += f"   <a href=\"{esc(x['summary_url'])}\">📄요약서</a>"
         L.append(tail)
@@ -157,10 +166,9 @@ def full_report(cur, fam):
     cheap_unknown = [x for x in prods if not x.get("age_max")
                      and any((premium(x, p["sex"]) or 10 ** 9) * 3 < MAX_PREMIUM for p in fam)]
     if cheap_unknown:
-        L.append("\n❓ <b>싼데 가입나이를 못 읽음</b> — 전화로 확인할 값어치 있음")
+        L.append("\n❓ <b>싼데 가입나이를 못 읽음</b> — 확인할 값어치 있음")
         for x in cheap_unknown[:5]:
-            L.append(f"· {esc(x['company'])} {esc(x['name'][:40])}"
-                     + (f"  ☎ {esc(x['phone'])}" if x.get("phone") else ""))
+            L.append(f"· {esc(x['company'])} {esc(x['name'][:40])}")
 
     L.append(f"\n<i>숨김 — 비쌈 {len(over)} · 나이 미달 {len(prods) - len(age_ok)}</i>")
     L.append(f"<i>공시는 40세 예시보험료만 줍니다. 위 금액은 10년당 {AGE_STEP}배(요약서 실측)로 나이를 반영한 "

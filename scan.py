@@ -165,6 +165,10 @@ _elderly_error = ""
 
 def src_kpub():
     """간병·치매 탭(PB16) + 고령자(60세↑) 탭의 간병·치매 상품. 고령자 탭 상품은 PB16 목록에 없다(2026-09-03 확인)."""
+    # 고령자(60세↑) 탭은 2026-08 신설 기능이라 같은 요청도 때에 따라 8개~297개로 들쭉날쭉하다
+    # (2026-09-03 확인). 못 읽은 것과 구분이 안 되므로 에러로 잡지 않고 있는 그대로 합친다 —
+    # 놓친 상품은 다음 실행에서 다시 잡히고, 어차피 diff_report 는 elderly_care 의 "사라짐"은
+    # 알리지 않는다(새로 등장만 알린다).
     global _elderly_error
     rows = kpub_list("PB16")
     elderly = set()
@@ -260,6 +264,8 @@ def src_lia():
         seg = product_segment(page, pc)
         prem_m, main_m = sum_premium(seg, "남자")
         prem_w, main_w = sum_premium(seg, "여자")
+        chm = re.search(r"(대면채널|온라인채널|CM채널|TM채널|방카채널|통신판매)", seg)
+        channel = chm.group(1).replace("채널", "") if chm else ""
         remark = strip_tags(fetch(LIA_REMARK.format(pc=pc)).decode("utf-8", "replace"))
         m = re.search(r"가입\s*나이\s*:?\s*(.{0,140})", remark)
         text = m.group(1) if m else ""
@@ -280,7 +286,7 @@ def src_lia():
             "premium_main_m": main_m,
             "premium_main_w": main_w,
             "premium_note": "주계약+특약 40세 예시",
-            "channel": "",
+            "channel": channel,
             "phone": "",
             "link": LIA_LIST,
             "summary_url": LIA_REMARK.format(pc=pc),
