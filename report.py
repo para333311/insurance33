@@ -155,10 +155,7 @@ def full_report(cur, fam):
         L.append("💰 " + " · ".join(
             f"{esc(p['name'])} <b>{won(est_premium(x, p))}</b>" if qualifies(x, p)
             else f"<s>{esc(p['name'])}</s>" for p in fam))
-        tail = f"📅 {x.get('age_min')}~{x['age_max']}세 가입"
-        if x.get("summary_url"):
-            tail += f"   <a href=\"{esc(x['summary_url'])}\">📄요약서</a>"
-        L.append(tail)
+        L.append(f"📅 {x.get('age_min')}~{x['age_max']}세 가입")
 
     age_ok = [x for x in prods if any(x.get("age_max") and x["age_max"] >= p["age"] for p in fam)]
     kept = {id(x) for x in keep}
@@ -192,12 +189,9 @@ def diff_report(prev, cur, fam):
             x = new[i]
             changes += 1
             age = f"{x['age_min']}~{x['age_max']}세" if x.get("age_max") else "가입나이 미확인"
-            L.append(f"\n🆕 {eligible_marks(x, fam)} <b>{esc(x['company'])}</b> {esc(x['name'])}")
+            title = esc(x['name']) + (" 🌐온라인가입" if is_online(x) else "")
+            L.append(f"\n🆕 {eligible_marks(x, fam)} <b>{esc(x['company'])}</b> <a href=\"{esc(signup_url(x))}\">{title}</a>")
             L.append(f"   남 {won(x.get('premium_m'))} · 여 {won(x.get('premium_w'))} · {age}")
-            if x.get("evidence"):
-                L.append(f"   <i>{esc(x['evidence'][:70])}</i>")
-            if x.get("summary_url"):
-                L.append(f"   {esc(x['summary_url'])}")
         for i in old.keys() - new.keys():
             changes += 1
             L.append(f"\n🚫 사라짐 <b>{esc(old[i]['company'])}</b> {esc(old[i]['name'])}")
