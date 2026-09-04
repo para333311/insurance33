@@ -1,0 +1,2 @@
+# 표준 라이브러리만 쓴다(urllib·json·re). 외부 pip 의존성 없음.
+# 시스템 의존성: pdftotext (poppler-utils) — 손보협회 상품요약서 PDF 에서 가입나이를 읽는다.

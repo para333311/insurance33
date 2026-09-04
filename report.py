@@ -4,10 +4,12 @@
     python report.py --full    전체 표 강제
     python report.py --print   보내지 않고 화면에만
 
-토큰은 리포 밖 ~/volcano-notify/insurance-bot.json 에서 읽는다. 리포는 공개다.
+토큰은 리포 밖 ~/volcano-notify/insurance-bot.json 에서 읽고, 파일이 없으면 환경변수
+TELEGRAM_BOT_TOKEN · TELEGRAM_CHAT_ID 에서 읽는다(GitHub Actions). 리포는 공개다.
 """
 import html
 import json
+import os
 import re
 import sys
 import urllib.parse
@@ -227,8 +229,18 @@ def split_messages(text, limit=3900):
     return parts
 
 
+def bot_config():
+    """토큰 파일이 있으면 파일, 없으면 환경변수(TELEGRAM_BOT_TOKEN · TELEGRAM_CHAT_ID). GitHub Actions 는 후자."""
+    if KEYFILE.exists():
+        return json.loads(KEYFILE.read_text(encoding="utf-8"))
+    token, chat_id = os.environ.get("TELEGRAM_BOT_TOKEN"), os.environ.get("TELEGRAM_CHAT_ID")
+    if not (token and chat_id):
+        raise SystemExit(f"토큰 없음 — {KEYFILE} 도 없고 TELEGRAM_BOT_TOKEN/TELEGRAM_CHAT_ID 환경변수도 없다")
+    return {"token": token, "chat_id": chat_id}
+
+
 def send(text):
-    cfg = json.loads(KEYFILE.read_text(encoding="utf-8"))
+    cfg = bot_config()
     for part in split_messages(text):
         body = urllib.parse.urlencode({
             "chat_id": cfg["chat_id"], "text": part, "parse_mode": "HTML", "disable_web_page_preview": "true",

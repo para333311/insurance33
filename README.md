@@ -1,14 +1,15 @@
 # insurance33 — 간병·치매보험 감시 봇
 
 손보협회·생보협회 공시실과 보험다모아에서 간병·치매 상품과 **가입나이**를 읽어,
-가족 보험나이에 가입 가능한 상품만 텔레그램 채널로 보낸다. 매주 월요일 08:30.
+가족 보험나이에 가입 가능한 상품만 텔레그램 채널로 보낸다. 매주 월요일 08:30 KST,
+GitHub Actions(`.github/workflows/weekly.yml`)가 돌린다. 노트북은 필요 없다.
 
 | 파일 | 역할 |
 |---|---|
 | `scan.py` | 4개 소스 → `data/latest.json` (직전 것은 `prev.json`) |
 | `report.py` | 가족 나이 대조 · 변화 감지 · 텔레그램 전송 |
 | `family.json` | 이름·성별·생년월일. 보험나이(상령일)는 자동 계산. `birth` 대신 `year` 만 있으면 대략 나이(화면에 `~`) |
-| `run.cmd` | 작업 스케줄러가 부른다 |
+| `.github/workflows/weekly.yml` | 매주 월 08:30 KST 에 scan → report → `data/` 커밋. Actions 탭에서 수동 실행도 된다 |
 | `override.json` | PDF 에서 잘못 읽은 가입나이를 손으로 고친다. `{"하나더넥스트": 80}` 처럼 상품명 일부 → 최고 가입나이 |
 
 가입나이는 상품요약서 PDF 에서 "NN세~NN세" 를 찾아 **최대값**을 쓴다. 갱신 나이·만기 나이를
@@ -24,4 +25,5 @@
 10년당 약 **1.35배**로 실측됐다(14,380→19,340→26,190). `MAX_PREMIUM`(10만원) 은 이 추정치에
 건다. 후보를 좁히는 용도이지 견적이 아니다.
 
-토큰은 리포에 없다 — `~/volcano-notify/insurance-bot.json`.
+토큰은 리포에 없다 — 리포 시크릿 `TELEGRAM_BOT_TOKEN` · `TELEGRAM_CHAT_ID`(로컬에서 돌릴 땐
+`~/volcano-notify/insurance-bot.json` 파일도 된다). 시스템 의존성은 `pdftotext`(poppler) 하나.

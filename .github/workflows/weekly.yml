@@ -1,0 +1,74 @@
+name: weekly
+
+on:
+  schedule:
+    - cron: "30 23 * * 0"   # 일 23:30 UTC = 월 08:30 KST
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: weekly
+  cancel-in-progress: false
+
+jobs:
+  scan:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: pdftotext
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq poppler-utils
+          pdftotext -v 2>&1 | head -1
+
+      - name: pip
+        run: pip install -r requirements.txt
+
+      - name: 요약서 PDF 캐시
+        uses: actions/cache@v4
+        with:
+          path: cache/pdf
+          key: pdf-cache-${{ github.run_id }}
+          restore-keys: pdf-cache-
+
+      - name: scan
+        run: python scan.py
+
+      - name: report (텔레그램)
+        env:
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+        run: python report.py
+
+      - name: 검증 — 0건이면 실패
+        run: |
+          python - <<'EOF'
+          import json, sys
+          d = json.load(open("data/latest.json", encoding="utf-8"))
+          n = len(d["products"])
+          for k, v in d["sources"].items():
+              print(f"{k}: {'ok ' + str(v.get('count')) if v.get('ok') else '장애 ' + str(v.get('error'))}")
+          print(f"products={n}")
+          if n == 0:
+              sys.exit("스캔 결과 0건 — 러너에서 보험사 사이트를 못 읽음")
+          EOF
+
+      - name: data 커밋
+        run: |
+          git config user.name "insurance33-bot"
+          git config user.email "insurance33-bot@users.noreply.github.com"
+          git add data
+          if git diff --cached --quiet; then
+            echo "data 변동 없음"
+          else
+            git commit -m "scan $(TZ=Asia/Seoul date +%F)"
+            git push
+          fi
