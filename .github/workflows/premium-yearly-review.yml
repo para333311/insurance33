@@ -1,0 +1,26 @@
+name: premium-yearly-review
+
+on:
+  schedule:
+    - cron: "0 23 28 2 *"   # 2/28 23:00 UTC = 3/1 08:00 KST (자동차보험 2월 갱신 지난 뒤)
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  remind:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: 연 1회 보험료 재확인 텔레그램 알림
+        env:
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+        run: python yearly_review_notice.py
