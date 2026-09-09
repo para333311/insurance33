@@ -647,6 +647,22 @@
         "본인부담": true,
         "recurring": false,
         "제외사유": "단기 여행자보험 — 1회성 지출, 매달/매년 반복되는 보험료 아님"
+      },
+      {
+        "company": "교보생명",
+        "category": "보험계약",
+        "product": "확인필요(상품명 미확인)",
+        "policy_no": "확인필요",
+        "status": "유지(정상)",
+        "relation": "확인필요",
+        "start": null,
+        "end": null,
+        "branch": null,
+        "phone": null,
+        "premium": 22000,
+        "premium_cycle": "월",
+        "premium_note": "사용자 직접 제공, 상품명·증권번호 등 세부사항 미확인",
+        "본인부담": true
       }
     ]
   }
