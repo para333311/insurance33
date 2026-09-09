@@ -1,0 +1,29 @@
+name: leak-insurance-reminder
+
+# 1회성 알림 — 오금동빌라 잔금(10/13) 다음날 텔레그램으로 누수보험(오금동·아현동 2건) 가입 알림.
+# 발송 후에는 매년 재발송되지 않도록 이 워크플로 파일을 지울 것.
+
+on:
+  schedule:
+    - cron: "0 23 13 10 *"   # 10/13 23:00 UTC = 10/14 08:00 KST
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  remind:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: 누수보험 가입 텔레그램 알림
+        env:
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+        run: python leak_insurance_notice.py
