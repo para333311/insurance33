@@ -1,9 +1,9 @@
 {
- "scanned_at": "2026-09-07 01:11",
+ "scanned_at": "2026-09-14 01:20",
  "sources": {
   "손보협회": {
    "ok": true,
-   "count": 116
+   "count": 117
   },
   "생보협회": {
    "ok": true,
@@ -750,8 +750,8 @@
    "channel": "CM",
    "phone": "1588-3344",
    "link": "http://www.lotteins.co.kr/web/C/D/H/cdh190.jsp",
-   "summary_url": "https://kpub.knia.or.kr/file/download/91805.do",
-   "summary_seq": "91805",
+   "summary_url": "https://kpub.knia.or.kr/file/download/93395.do",
+   "summary_seq": "93395",
    "elderly": false
   },
   {
@@ -771,8 +771,8 @@
    "channel": "CM",
    "phone": "1588-3344",
    "link": "http://www.lotteins.co.kr/web/C/D/H/cdh190.jsp",
-   "summary_url": "https://kpub.knia.or.kr/file/download/91804.do",
-   "summary_seq": "91804",
+   "summary_url": "https://kpub.knia.or.kr/file/download/93394.do",
+   "summary_seq": "93394",
    "elderly": false
   },
   {
@@ -792,8 +792,8 @@
    "channel": "CM",
    "phone": "1588-3344",
    "link": "http://www.lotteins.co.kr/web/C/D/H/cdh190.jsp",
-   "summary_url": "https://kpub.knia.or.kr/file/download/91803.do",
-   "summary_seq": "91803",
+   "summary_url": "https://kpub.knia.or.kr/file/download/93392.do",
+   "summary_seq": "93392",
    "elderly": false
   },
   {
@@ -813,8 +813,8 @@
    "channel": "CM",
    "phone": "1588-3344",
    "link": "http://www.lotteins.co.kr/web/C/D/H/cdh190.jsp",
-   "summary_url": "https://kpub.knia.or.kr/file/download/91802.do",
-   "summary_seq": "91802",
+   "summary_url": "https://kpub.knia.or.kr/file/download/93393.do",
+   "summary_seq": "93393",
    "elderly": false
   },
   {
@@ -1890,6 +1890,27 @@
   },
   {
    "age_method": "가입나이 문맥",
+   "age_first": 79,
+   "id": "kpub:N17:무배당 하나더넥스트 간병보험(방카)(2609)(해약환급금일부지급형)",
+   "source": "손보협회",
+   "company": "하나손보",
+   "name": "무배당 하나더넥스트 간병보험(방카)(2609)(해약환급금일부지급형)",
+   "kind": "간병",
+   "age_min": 40,
+   "age_max": 79,
+   "evidence": "가입나이 90/100세 10/15/ 20/25/ 30년 40세~ Min((만기시연령-납입기간 -1)세,79세) 보험 기간 납입 기간 가",
+   "premium_m": "53578",
+   "premium_w": "58984",
+   "premium_note": "산출기준 : 상해1급, 40세, 100세만기, 20년납입 \r\n간병인사용질병입원일당(요양병원)(1일이상180일",
+   "channel": "방카",
+   "phone": "1566-3000",
+   "link": "https://www.hanainsure.co.kr/w/disclosure/product/saleProduct",
+   "summary_url": "https://kpub.knia.or.kr/file/download/93507.do",
+   "summary_seq": "93507",
+   "elderly": false
+  },
+  {
+   "age_method": "가입나이 문맥",
    "age_first": 80,
    "id": "kpub:N17:무배당 하나더넥스트 간편 치매간병보험 3종(세만기형, 해약환급금미지급형Ⅱ)",
    "source": "손보협회",
@@ -2456,26 +2477,6 @@
    "elderly": false
   },
   {
-   "id": "lia:L01:한화생명 H플러스보장보험 무배당 [일반가입형]",
-   "source": "생보협회",
-   "company": "한화생명",
-   "name": "한화생명 H플러스보장보험 무배당 [일반가입형]",
-   "kind": "기타",
-   "age_min": 15,
-   "age_max": 75,
-   "evidence": "가입나이 만 15세 ~ 75세 (다만, 보험종목별, 성별, 보험기간 및 납입기간별로 상이) 2. 보험종류 : 해약환급금 일부지급형(납입기간중 50%, 납",
-   "premium_m": "333000",
-   "premium_w": "314000",
-   "premium_main_m": "333000",
-   "premium_main_w": "314000",
-   "premium_note": "주계약+특약 40세 예시",
-   "channel": "대면",
-   "phone": "",
-   "link": "https://pub.insure.or.kr/compareDis/prodCompare/assurance/listNew.do?search_prodGroup=024400010010",
-   "summary_url": "https://pub.insure.or.kr/compareDis/prodCompare/assurance/remarkViewPopup.do?prodCd=L0102460001NNN024700020244000102440001001002440001001000010244000100100001000222612&search_prodGroup=024400010010",
-   "summary_seq": ""
-  },
-  {
    "id": "lia:L01:한화생명 H플러스보장보험 무배당 [간편가입형]",
    "source": "생보협회",
    "company": "한화생명",
@@ -2493,6 +2494,26 @@
    "phone": "",
    "link": "https://pub.insure.or.kr/compareDis/prodCompare/assurance/listNew.do?search_prodGroup=024400010010",
    "summary_url": "https://pub.insure.or.kr/compareDis/prodCompare/assurance/remarkViewPopup.do?prodCd=L0102460001NNN024700020244000102440001001002440001001000010244000100100001000222613&search_prodGroup=024400010010",
+   "summary_seq": ""
+  },
+  {
+   "id": "lia:L01:한화생명 H플러스보장보험 무배당 [일반가입형]",
+   "source": "생보협회",
+   "company": "한화생명",
+   "name": "한화생명 H플러스보장보험 무배당 [일반가입형]",
+   "kind": "기타",
+   "age_min": 15,
+   "age_max": 75,
+   "evidence": "가입나이 만 15세 ~ 75세 (다만, 보험종목별, 성별, 보험기간 및 납입기간별로 상이) 2. 보험종류 : 해약환급금 일부지급형(납입기간중 50%, 납",
+   "premium_m": "333000",
+   "premium_w": "314000",
+   "premium_main_m": "333000",
+   "premium_main_w": "314000",
+   "premium_note": "주계약+특약 40세 예시",
+   "channel": "대면",
+   "phone": "",
+   "link": "https://pub.insure.or.kr/compareDis/prodCompare/assurance/listNew.do?search_prodGroup=024400010010",
+   "summary_url": "https://pub.insure.or.kr/compareDis/prodCompare/assurance/remarkViewPopup.do?prodCd=L0102460001NNN024700020244000102440001001002440001001000010244000100100001000222612&search_prodGroup=024400010010",
    "summary_seq": ""
   },
   {
@@ -2576,26 +2597,6 @@
    "summary_seq": ""
   },
   {
-   "id": "lia:L04:(무)흥국생명 안심케어보험2603_2종 3형",
-   "source": "생보협회",
-   "company": "흥국생명",
-   "name": "(무)흥국생명 안심케어보험2603_2종 3형",
-   "kind": "기타",
-   "age_min": 15,
-   "age_max": 70,
-   "evidence": "가입나이 만15세 ~ 70세(단 성별, 보험기간, 납입기간별 차등적용) 2. 보험기간 : 90세만기, 100세만기, 110세 만기 3. 보험료 예시기준",
-   "premium_m": "103800",
-   "premium_w": "150600",
-   "premium_main_m": "103800",
-   "premium_main_w": "150600",
-   "premium_note": "주계약+특약 40세 예시",
-   "channel": "대면",
-   "phone": "",
-   "link": "https://pub.insure.or.kr/compareDis/prodCompare/assurance/listNew.do?search_prodGroup=024400010010",
-   "summary_url": "https://pub.insure.or.kr/compareDis/prodCompare/assurance/remarkViewPopup.do?prodCd=L04024600010246000202460004NNN0247000202440001024400010010024400010010000102440001001000010004L4214&search_prodGroup=024400010010",
-   "summary_seq": ""
-  },
-  {
    "id": "lia:L04:(무)흥국생명 안심케어보험2603_2종 1형",
    "source": "생보협회",
    "company": "흥국생명",
@@ -2616,23 +2617,23 @@
    "summary_seq": ""
   },
   {
-   "id": "lia:L04:(무)흥국생명 안심케어보험2603(해약환급금일부지급형)_1종 1형",
+   "id": "lia:L04:(무)흥국생명 안심케어보험2603_2종 3형",
    "source": "생보협회",
    "company": "흥국생명",
-   "name": "(무)흥국생명 안심케어보험2603(해약환급금일부지급형)_1종 1형",
+   "name": "(무)흥국생명 안심케어보험2603_2종 3형",
    "kind": "기타",
    "age_min": 15,
    "age_max": 70,
    "evidence": "가입나이 만15세 ~ 70세(단 성별, 보험기간, 납입기간별 차등적용) 2. 보험기간 : 90세만기, 100세만기, 110세 만기 3. 보험료 예시기준",
-   "premium_m": "115300",
-   "premium_w": "98000",
-   "premium_main_m": "115300",
-   "premium_main_w": "98000",
+   "premium_m": "103800",
+   "premium_w": "150600",
+   "premium_main_m": "103800",
+   "premium_main_w": "150600",
    "premium_note": "주계약+특약 40세 예시",
    "channel": "대면",
    "phone": "",
    "link": "https://pub.insure.or.kr/compareDis/prodCompare/assurance/listNew.do?search_prodGroup=024400010010",
-   "summary_url": "https://pub.insure.or.kr/compareDis/prodCompare/assurance/remarkViewPopup.do?prodCd=L04024600010246000202460004NNN0247000202440001024400010010024400010010000102440001001000010002L4208&search_prodGroup=024400010010",
+   "summary_url": "https://pub.insure.or.kr/compareDis/prodCompare/assurance/remarkViewPopup.do?prodCd=L04024600010246000202460004NNN0247000202440001024400010010024400010010000102440001001000010004L4214&search_prodGroup=024400010010",
    "summary_seq": ""
   },
   {
@@ -2656,6 +2657,46 @@
    "summary_seq": ""
   },
   {
+   "id": "lia:L04:(무)흥국생명 안심케어보험2603(해약환급금일부지급형)_1종 1형",
+   "source": "생보협회",
+   "company": "흥국생명",
+   "name": "(무)흥국생명 안심케어보험2603(해약환급금일부지급형)_1종 1형",
+   "kind": "기타",
+   "age_min": 15,
+   "age_max": 70,
+   "evidence": "가입나이 만15세 ~ 70세(단 성별, 보험기간, 납입기간별 차등적용) 2. 보험기간 : 90세만기, 100세만기, 110세 만기 3. 보험료 예시기준",
+   "premium_m": "115300",
+   "premium_w": "98000",
+   "premium_main_m": "115300",
+   "premium_main_w": "98000",
+   "premium_note": "주계약+특약 40세 예시",
+   "channel": "대면",
+   "phone": "",
+   "link": "https://pub.insure.or.kr/compareDis/prodCompare/assurance/listNew.do?search_prodGroup=024400010010",
+   "summary_url": "https://pub.insure.or.kr/compareDis/prodCompare/assurance/remarkViewPopup.do?prodCd=L04024600010246000202460004NNN0247000202440001024400010010024400010010000102440001001000010002L4208&search_prodGroup=024400010010",
+   "summary_seq": ""
+  },
+  {
+   "id": "lia:L31:iM Active Care 치매간병보험 무배당 2609 (해약환급금 미지급형)",
+   "source": "생보협회",
+   "company": "iM라이프",
+   "name": "iM Active Care 치매간병보험 무배당 2609 (해약환급금 미지급형)",
+   "kind": "간병·치매",
+   "age_min": 30,
+   "age_max": 70,
+   "evidence": "가입나이 30세 ~ 최대 70세 2. 보험기간 : 90세/100세/종신 3. 납입기간 : 10/15/20/30년납 4. 보험료 및 보험가격지수 예시 기준",
+   "premium_m": "46100",
+   "premium_w": "42400",
+   "premium_main_m": "16200",
+   "premium_main_w": "12500",
+   "premium_note": "주계약+특약 40세 예시",
+   "channel": "대면",
+   "phone": "",
+   "link": "https://pub.insure.or.kr/compareDis/prodCompare/assurance/listNew.do?search_prodGroup=024400010010",
+   "summary_url": "https://pub.insure.or.kr/compareDis/prodCompare/assurance/remarkViewPopup.do?prodCd=L3102460001NNN0247000202440001024400010010024400010010000102440001001000010002HZ001&search_prodGroup=024400010010",
+   "summary_seq": ""
+  },
+  {
    "id": "lia:L31:든든한인생치매보험 무배당 2601 (해약환급금 일부지급형)",
    "source": "생보협회",
    "company": "iM라이프",
@@ -2673,26 +2714,6 @@
    "phone": "",
    "link": "https://pub.insure.or.kr/compareDis/prodCompare/assurance/listNew.do?search_prodGroup=024400010010",
    "summary_url": "https://pub.insure.or.kr/compareDis/prodCompare/assurance/remarkViewPopup.do?prodCd=L3102460001NNN0247000202440001024400010010024400010010000102440001001000010002HD301&search_prodGroup=024400010010",
-   "summary_seq": ""
-  },
-  {
-   "id": "lia:L31:iM 프리미엄안심보험 무배당 2603 1종(치매보장형)",
-   "source": "생보협회",
-   "company": "iM라이프",
-   "name": "iM 프리미엄안심보험 무배당 2603 1종(치매보장형)",
-   "kind": "치매",
-   "age_min": 30,
-   "age_max": 70,
-   "evidence": "가입나이 30세 ~ 최고 70세 2. 보험기간 : 90세/100세/110세만기 3. 납입기간 : 5/7/10/15/20년납 4. 보험료 및 보험가격지수",
-   "premium_m": "168600",
-   "premium_w": "145700",
-   "premium_main_m": "168600",
-   "premium_main_w": "145700",
-   "premium_note": "주계약+특약 40세 예시",
-   "channel": "대면",
-   "phone": "",
-   "link": "https://pub.insure.or.kr/compareDis/prodCompare/assurance/listNew.do?search_prodGroup=024400010010",
-   "summary_url": "https://pub.insure.or.kr/compareDis/prodCompare/assurance/remarkViewPopup.do?prodCd=L310246000102460002NNN0247000202440001024400010010024400010010000102440001001000010002HC311&search_prodGroup=024400010010",
    "summary_seq": ""
   },
   {
